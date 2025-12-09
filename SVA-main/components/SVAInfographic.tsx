@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import type { Rule, QuizQuestion, Difficulty } from '../types.ts';
 import { ruleCategories, initialQuizQuestions, ruleQuizzes } from '../data/rules.ts';
 import { StarIcon, CheckCircleIcon, XCircleIcon, AwardIcon, ChevronLeftIcon, ChevronRightIcon, BookIcon } from './icons.tsx';
@@ -308,6 +308,37 @@ const SVAInfographic: React.FC = () => {
     setOutcome(null);
   };
 
+  // Keyboard Navigation for Quiz
+  useEffect(() => {
+    if (!quizMode || answered) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key;
+      const index = parseInt(key) - 1;
+      
+      if (index >= 0 && index < 4 && activeQuizQuestions[currentQuestion]?.options[index]) {
+        handleAnswer(index);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [quizMode, answered, currentQuestion, activeQuizQuestions]);
+
+  // Handle Enter key for "Next Question"
+  useEffect(() => {
+    if (!quizMode || !answered) return;
+
+    const handleEnter = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleNext();
+        }
+    };
+
+    window.addEventListener('keydown', handleEnter);
+    return () => window.removeEventListener('keydown', handleEnter);
+  }, [quizMode, answered, currentQuestion]);
+
   // --- VIEW: QUIZ CONFIGURATION ---
   if (showConfig) {
     const availableCount = pendingQuestions.length;
@@ -576,7 +607,12 @@ const SVAInfographic: React.FC = () => {
                     }`}
                     >
                     <div className="flex items-center justify-between">
-                        <span className="font-medium">{option}</span>
+                        <span className="font-medium">
+                            <span className="inline-block w-6 h-6 rounded-full bg-slate-100 text-slate-500 text-center text-xs leading-6 mr-3 font-bold group-hover:bg-violet-100 group-hover:text-violet-600">
+                                {index + 1}
+                            </span>
+                            {option}
+                        </span>
                         {answered && index === question.correct && (
                         <CheckCircleIcon className="text-green-600" size={24} />
                         )}
@@ -608,7 +644,7 @@ const SVAInfographic: React.FC = () => {
                 onClick={handleNext}
                 className="w-full py-3 mt-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg hover:shadow-lg font-bold transition-shadow duration-300 shrink-0"
               >
-                {currentQuestion < questions.length - 1 ? 'Next Question →' : 'View Results'}
+                {currentQuestion < questions.length - 1 ? 'Next Question →' : 'View Results'} <span className="text-xs font-normal opacity-80 ml-1">(Enter)</span>
               </button>
             )}
           </div>

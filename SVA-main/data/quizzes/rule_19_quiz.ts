@@ -1,3 +1,4 @@
+
 import type { QuizQuestion } from '../../types.ts';
 
 export const rule19Quiz: QuizQuestion[] = [
@@ -148,7 +149,7 @@ export const rule19Quiz: QuizQuestion[] = [
   { question: "Seldom ___ the only one of the professors who ___ published ___ available.", options: ["are / have / are", "is / has / is", "is / have / is", "are / has / are"], correct: 1, difficulty: "hard", explanation: "Rule 19: 'The only one' (singular) -> 'is'/'has'." },
   { question: "Not only ___ What they asked for ___ two new computers.", options: ["were / were", "was / was", "were / was", "was / were"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'What...' referring to plural -> 'were'." },
   { question: "Never ___ Ten dollars ___ such a small amount.", options: ["is", "are", "was", "were"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'Ten dollars' (unit) -> 'is'." },
-  { question: "Rarely ___ the pair of trousers I wish I ___ bought ___ clean.", options: ["are / had / are", "is / had / is", "are / have / are", "is / have / is"], correct: 1, difficulty: "hard", explanation: "Rule 19: 'Pair' (singular) -> 'is'. Wish -> 'had'." },
+  { question: "Rarely ___ the number of participants ___ so high.", options: ["has / been", "have / been", "is / been", "are / been"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'The number' (singular) requires 'has been'." },
   { question: "Seldom ___ all of the equipment ___ working properly.", options: ["is", "are", "do", "have"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'All of equipment' (singular) -> 'is'." },
   { question: "Not only ___ a pair of shoes ___ stolen, but the keys too.", options: ["was", "were", "are", "have"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'Pair' (singular) -> 'was'." },
   { question: "Never ___ the poor ___ treated with such dignity.", options: ["are", "is", "was", "has"], correct: 0, difficulty: "hard", explanation: "Rule 19: 'The poor' (plural) -> 'are'." },
