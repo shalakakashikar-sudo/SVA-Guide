@@ -1,11 +1,12 @@
 
+
 import type { Rule } from '../../types.ts';
 
 export const rule6: Rule = {
   id: 6,
   name: "Rule 6: Correlative Conjunctions - Proximity Rule",
-  formula: "S1 or/nor S2 ➜ Verb agrees with S2 (nearest)",
-  explanation: "When compound subjects are joined by 'or', 'nor', 'either...or', or 'neither...nor', the verb agrees with the subject that is closest to it (the nearest subject).\n\n• Closest Subject Singular ➜ Use a Singular Verb.\n• Closest Subject Plural ➜ Use a Plural Verb.\n\n• Example: 'Neither the students nor the teacher is here.' ('Teacher' is closest, so use 'is').",
+  formula: "S1 • or / nor / but also • S2 ➜ Verb agrees with S2 (Nearest)",
+  explanation: "When compound subjects are joined by specific conjunctions, the verb agrees with the subject that is **closest** to it (the nearest subject).\n\n• Applies to:\n   - Or / Nor\n   - Either... Or\n   - Neither... Nor\n   - Not only... But also\n\n• The Rule:\n   - Closest Subject Singular ➜ Use a Singular Verb.\n   - Closest Subject Plural ➜ Use a Plural Verb.",
   examples: [
     {
       sentence: "Neither the students nor the teacher is ready.",
@@ -18,6 +19,12 @@ export const rule6: Rule = {
       subject: "the students",
       verb: "are",
       reason: "The verb 'are' agrees with the closest subject, 'the students' (plural)."
+    },
+    {
+      sentence: "Not only the players but also the coach is excited.",
+      subject: "the coach",
+      verb: "is",
+      reason: "The verb agrees with 'the coach' because it is closer than 'the players'."
     },
     {
       sentence: "Either the cat or the dogs have eaten the food.",

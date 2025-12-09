@@ -1,4 +1,5 @@
 
+
 import type { Rule } from '../../types.ts';
 
 export const rule12: Rule = {

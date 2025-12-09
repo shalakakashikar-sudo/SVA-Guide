@@ -1,11 +1,12 @@
 
+
 import type { Rule } from '../../types.ts';
 
 export const rule1: Rule = {
   id: 1,
   name: "Rule 1: The General Rule",
   formula: "Singular Subject ➜ Verb + s/es | Plural/I/You ➜ Base Verb",
-  explanation: "In the Simple Present Tense, the verb changes form based on the number of the subject:\n\n• Singular Subjects (He, She, It, The Cat): The verb must end in -s or -es (e.g., eats, goes).\n• Plural Subjects (They, We, The Cats): The verb stays in its base form without an 's' (e.g., eat, go).\n\nException: The pronouns 'I' and 'You' always take the base form of the verb, even though they refer to single individuals.",
+  explanation: "In the Simple Present Tense, the verb changes form based on the number of the subject:\n\n• Singular Subjects (He, She, It, The Cat): The verb must end in -s or -es (e.g., eats, goes).\n\n• Plural Subjects (They, We, The Cats): The verb stays in its base form without an 's' (e.g., eat, go).\n\n• Important Exception: The pronouns 'I' and 'You' always take the base form of the verb, even though they refer to single individuals.",
   examples: [
     {
       sentence: "She walks to school every day.",

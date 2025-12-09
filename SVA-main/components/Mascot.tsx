@@ -43,7 +43,17 @@ const SVA_FACTS = [
   "Abstract nouns like 'Honesty' are always singular.",
   "Don't be confused by 'one of the...'! The subject is 'One'.",
   "Plural subjects (We/They) hate 's' on their verbs!",
-  "The phrase 'Many a...' is actually singular!"
+  "The phrase 'Many a...' is actually singular!",
+  "Collective nouns can be plural if members act individually!",
+  "Inversions: With 'Neither do I', the verb agrees with 'I'.",
+  "'Must', 'Can', and 'Should' never change forms!",
+  "In 'Not only... but also', match the verb to the second subject.",
+  "Percentages take singular verbs for singular nouns: '50% of the pie is gone'.",
+  "Percentages take plural verbs for plural nouns: '50% of the pies are gone'.",
+  "Expressions like 'a pair of' always make the subject singular.",
+  "Beware of 'The flock of birds'! The subject is 'flock' (singular).",
+  "When 'And' links two things as one idea (e.g., Rock and Roll), it's singular!",
+  "'News' is always singular. The news IS good!"
 ];
 
 const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, isCelebrating = false }) => {

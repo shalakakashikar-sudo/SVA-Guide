@@ -1,11 +1,12 @@
 
+
 import type { Rule } from '../../types.ts';
 
 export const rule8: Rule = {
   id: 8,
   name: "Rule 8: Additive/Parenthetical Phrases",
   formula: "S1, (along with/as well as S2), ... ➜ Verb agrees with S1",
-  explanation: "Certain phrases appear to add more people or things to the subject, but grammatically, they do not change the number of the subject. These are called additive or parenthetical phrases.\n\n• Common Phrases: along with, as well as, together with, including, besides, accompanied by.\n\n• The Rule: Ignore these phrases. The verb agrees only with the first (main) subject.\n\n• Example: 'The teacher, (along with the students), is going.'",
+  explanation: "Certain phrases appear to add more people or things to the subject, but grammatically, they do not change the number of the subject. These are called additive or parenthetical phrases.\n\n• Common Phrases:\n   - along with\n   - as well as\n   - together with\n   - including\n   - besides\n   - accompanied by\n\n• The Rule: Ignore these phrases. The verb agrees only with the first (main) subject.\n\n• Example: 'The teacher, (along with the students), is going.'",
   examples: [
     {
       sentence: "The teacher, along with the students, is going to the museum.",
