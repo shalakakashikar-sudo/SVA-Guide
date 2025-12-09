@@ -1,9 +1,7 @@
 import { defineConfig } from "vite";
-
-// IMPORTANT:
-// The "base" must match your repository name exactly.
-// Since your repo is SVA, the base is "/SVA/"
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/SVA/",
+  base: "/SVA/",   // <-- match the URL path you opened
+  plugins: [react()],
 });
