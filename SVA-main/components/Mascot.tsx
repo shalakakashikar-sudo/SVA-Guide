@@ -55,6 +55,18 @@ const SVA_FACTS = [
   "'News' is always singular. The news IS good!"
 ];
 
+// --- Helper for Asset Paths ---
+const getAssetPath = (path: string) => {
+    // Check if we are in a Vite environment
+    const meta = import.meta as any;
+    const baseUrl = (meta && meta.env && meta.env.BASE_URL) || "/";
+    // Remove trailing slash if present to avoid double slashes
+    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    // Ensure path starts with /
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${cleanBase}${cleanPath}`;
+  };
+
 const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, isCelebrating = false }) => {
   const [isTickled, setIsTickled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -68,12 +80,10 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
   const bubbleTimeoutRef = useRef<number | null>(null);
   const tickleAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Asset Path Helper for Tickle Sound
+  // Initialize Audio with correct path
   useEffect(() => {
-    const meta = import.meta as any;
-    const baseUrl = (meta && meta.env && meta.env.BASE_URL) || "/";
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    tickleAudioRef.current = new Audio(`${cleanBase}/sounds/tickle.wav`);
+    const audioPath = getAssetPath('sounds/tickle.wav');
+    tickleAudioRef.current = new Audio(audioPath);
     tickleAudioRef.current.preload = "auto";
   }, []);
 
