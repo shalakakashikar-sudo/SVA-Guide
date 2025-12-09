@@ -5,7 +5,7 @@ export const rule6: Rule = {
   id: 6,
   name: "Rule 6: Correlative Conjunctions - Proximity Rule",
   formula: "S1 or/nor S2 ➜ Verb agrees with S2 (nearest)",
-  explanation: "When compound subjects are joined by 'or', 'nor', 'either...or', or 'neither...nor', the verb agrees with the subject that is closest to it (the nearest subject).\n\nIf the closest subject is singular, use a Singular verb.\nIf the closest subject is plural, use a Plural verb.\n\nExample: 'Neither the students nor the teacher is here.' (Teacher is closest).",
+  explanation: "When compound subjects are joined by 'or', 'nor', 'either...or', or 'neither...nor', the verb agrees with the subject that is closest to it (the nearest subject).\n\n• Closest Subject Singular ➜ Use a Singular Verb.\n• Closest Subject Plural ➜ Use a Plural Verb.\n\n• Example: 'Neither the students nor the teacher is here.' ('Teacher' is closest, so use 'is').",
   examples: [
     {
       sentence: "Neither the students nor the teacher is ready.",

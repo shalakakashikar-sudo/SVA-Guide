@@ -5,7 +5,7 @@ export const rule21: Rule = {
   id: 21,
   name: "Rule 21: Nominal Clauses",
   formula: "Clause as Subject ➜ Singular Verb",
-  explanation: "A nominal clause (noun clause) is a group of words that functions as the subject of a sentence. These clauses often begin with words like What, How, That, or Why.\n\nThe Rule: Since the entire clause represents a single idea, fact, or question, it is treated as a Singular Subject.\nExample: '[What you said] is true.' (The thing you said is true).",
+  explanation: "A nominal clause (noun clause) is a group of words that functions as the subject of a sentence. These clauses often begin with words like What, How, That, or Why.\n\n• The Rule: Since the entire clause represents a single idea, fact, or question, it is treated as a Singular Subject.\n\n• Example: '[What you said] is true.' (The thing you said is true).",
   examples: [
     {
       sentence: "What you said is true.",

@@ -3,9 +3,9 @@ import type { Rule } from '../../types.ts';
 
 export const rule5: Rule = {
   id: 5,
-  name: "Rule 5: Distributive Markers (Each/Every)",
-  formula: "Each/Every + Subject(s) ➜ Singular Verb",
-  explanation: "The words 'Each' and 'Every' are strong singular markers. They focus on the individual members of a group one at a time, rather than the group as a whole.\n\nThe Rule: Whenever a subject begins with 'Each' or 'Every', the verb is always Singular. This applies even if the subject contains a list of multiple nouns (e.g., 'Every man, woman, and child is...').",
+  name: "Rule 5: Distributive Markers (Each, Every, Either, Neither)",
+  formula: "Each/Every/Either/Neither + Subject(s) ➜ Singular Verb",
+  explanation: "The words 'Each', 'Every', 'Either', and 'Neither' act as distributive markers. They focus on individual members of a group one at a time, rather than the group as a whole.\n\n• The Rule: Whenever a subject is modified by these words, the verb is always Singular.\n\n• Scope: This applies even if the subject contains a list of multiple nouns (e.g., 'Every man, woman, and child is...').\n\n• Examples: 'Each student has', 'Neither answer is correct', 'Either option works'.",
   examples: [
     {
         sentence: "Every man and woman is required to check in.",

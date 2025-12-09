@@ -5,7 +5,7 @@ export const rule3: Rule = {
   id: 3,
   name: "Rule 3: Modal Auxiliary Verbs",
   formula: "Any Subject ➜ Modal (can, will...) + Base Verb",
-  explanation: "Modal verbs are special auxiliary verbs that express ability, possibility, permission, or obligation. They are unique because they never change form; they do not add -s, -ed, or -ing, regardless of the subject.\n\nCommon Modal Verbs:\nCan, Could, May, Might, Will, Would, Shall, Should, Must.\n\nThe Rule: Always follow a modal verb with the base form of the main verb (e.g., 'He can go', not 'He can goes').",
+  explanation: "Modal verbs are special auxiliary verbs that express ability, possibility, permission, or obligation. They are unique because they never change form; they do not add -s, -ed, or -ing, regardless of the subject.\n\n• Common Modals: Can, Could, May, Might, Will, Would, Shall, Should, Must.\n\n• The Rule: Always follow a modal verb with the base form of the main verb.\n\n• Example: 'He can go' (Correct) vs. 'He can goes' (Incorrect).",
   examples: [
     {
         sentence: "She must schedule an appointment.",

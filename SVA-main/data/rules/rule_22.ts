@@ -5,7 +5,7 @@ export const rule22: Rule = {
   id: 22,
   name: "Rule 22: Agreement of Person",
   formula: "It is I who... ➜ am | It is You who... ➜ are | It is He who... ➜ is",
-  explanation: "In sentences beginning with 'It is [Pronoun] who...', the relative pronoun 'who' acts as the subject of the following verb. The verb must agree in person (1st, 2nd, or 3rd) with the pronoun that 'who' refers to.\n\nThe Rule:\n*   'It is I who am...' (Matches 'I am')\n*   'It is You who are...' (Matches 'You are')\n*   'It is He who is...' (Matches 'He is')",
+  explanation: "In sentences beginning with 'It is [Pronoun] who...', the relative pronoun 'who' acts as the subject of the following verb. The verb must agree in person (1st, 2nd, or 3rd) with the pronoun that 'who' refers to.\n\n• 'It is I who am...' (Matches 'I am')\n• 'It is You who are...' (Matches 'You are')\n• 'It is He who is...' (Matches 'He is')",
   examples: [
     {
         sentence: "It is I who am responsible.",

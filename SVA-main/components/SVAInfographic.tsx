@@ -779,7 +779,9 @@ const SVAInfographic: React.FC = () => {
 
           <div className="mb-8">
             <h3 className="text-xl font-bold text-gray-800 mb-3 font-poppins">Explanation</h3>
-            <p className="text-lg text-gray-700 leading-relaxed">{selectedRule.explanation}</p>
+            <div className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
+                 {selectedRule.explanation}
+            </div>
           </div>
 
           {RuleInfographicComponent && <RuleInfographicComponent />}
