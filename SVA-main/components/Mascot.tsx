@@ -1,5 +1,4 @@
 
-
 // components/Mascot.tsx
 import React, { useEffect, useRef, useState } from "react";
 
@@ -67,68 +66,15 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
   
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const bubbleTimeoutRef = useRef<number | null>(null);
+  const tickleAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // audio refs
-  const audio = useRef<{ correct?: HTMLAudioElement; wrong?: HTMLAudioElement; tickle?: HTMLAudioElement }>({});
-  const unlocked = useRef(false);
-
-  // preload but don't assume unlocked
+  // Asset Path Helper for Tickle Sound
   useEffect(() => {
-    // Dynamically determine base path for assets to support GitHub Pages deployment
-    // Use safe access for import.meta.env to prevent "Cannot read properties of undefined"
     const meta = import.meta as any;
     const baseUrl = (meta && meta.env && meta.env.BASE_URL) || "/";
-    
     const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    const soundBase = `${cleanBase}/sounds`;
-
-    audio.current.correct = new Audio(`${soundBase}/correct.wav`);
-    audio.current.wrong = new Audio(`${soundBase}/wrong.wav`);
-    audio.current.tickle = new Audio(`${soundBase}/tickle.wav`);
-    
-    Object.values(audio.current).forEach((a) => {
-      if (a) {
-        (a as HTMLAudioElement).preload = "auto";
-        (a as HTMLAudioElement).load();
-      }
-    });
-  }, []);
-
-  // attempt to unlock audio on a custom event (dispatched from app on first user gesture)
-  useEffect(() => {
-    const tryUnlock = () => {
-      if (unlocked.current) return;
-      unlocked.current = true;
-      // attempt quick play/pause on each audio element to satisfy autoplay policy
-      Object.values(audio.current).forEach((a) => {
-        if (!a) return;
-        const el = a as HTMLAudioElement;
-        try {
-          el.currentTime = 0;
-          const p = el.play();
-          if (p && typeof p.then === "function") {
-            p.then(() => {
-              el.pause();
-              el.currentTime = 0;
-              // keep loaded for future plays
-            }).catch(() => {
-              // ignore rejections
-            });
-          }
-        } catch {
-          // ignore
-        }
-      });
-    };
-
-    window.addEventListener("user-interaction", tryUnlock);
-    // also listen to any direct pointerdown to be safe
-    window.addEventListener("pointerdown", tryUnlock, { once: true });
-
-    return () => {
-      window.removeEventListener("user-interaction", tryUnlock);
-      window.removeEventListener("pointerdown", tryUnlock as any);
-    };
+    tickleAudioRef.current = new Audio(`${cleanBase}/sounds/tickle.wav`);
+    tickleAudioRef.current.preload = "auto";
   }, []);
 
   // Blinking Logic
@@ -149,10 +95,9 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
     return () => clearTimeout(timeoutId);
   }, []);
 
-  // Idle Prompt Logic: Encourage tickling
+  // Idle Prompt Logic
   useEffect(() => {
     const idleTimer = setInterval(() => {
-      // Only show prompt if bubble isn't already showing and mascot isn't busy
       if (!showBubble && !isAnimating && !isTickled && !isCrying) {
          setTickleMessage("Tickle me for a grammar tip!");
          setShowBubble(true);
@@ -160,33 +105,20 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
          if (bubbleTimeoutRef.current) clearTimeout(bubbleTimeoutRef.current);
          bubbleTimeoutRef.current = window.setTimeout(() => {
             setShowBubble(false);
-         }, 5000); // Show prompt for 5s
+         }, 5000);
       }
-    }, 15000); // Check every 15 seconds
+    }, 15000); 
 
     return () => clearInterval(idleTimer);
   }, [showBubble, isAnimating, isTickled, isCrying]);
 
-  const play = (kind: "correct" | "wrong" | "tickle") => {
-    const a = audio.current[kind];
-    if (!a) return;
-    try {
-      a.currentTime = 0;
-      const p = a.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
-    } catch {
-      // swallow autoplay errors
-    }
-  };
-
-  // CSS injection (same as before, celebration shortened to 600ms)
+  // CSS injection
   useEffect(() => {
     if (document.getElementById("mascot-merged-styles")) return;
     const style = document.createElement("style");
     style.id = "mascot-merged-styles";
     style.innerHTML = `
       .mascot-merged { display:inline-block; cursor:pointer; will-change: transform; }
-      /* CELEBRATE: faster 600ms spin + little dance — now snappy */
       .mascot-celebrate { animation: mascot-celebrate 600ms cubic-bezier(.22,.9,.35,1) both; transform-origin: center center; }
       @keyframes mascot-celebrate {
         0% { transform: translateY(0) rotate(0deg) scale(1); }
@@ -208,37 +140,30 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       @keyframes tear-fall { 0% { opacity: 1; transform: translateY(0) scaleY(1);} 100% { opacity: 0; transform: translateY(18px) scaleY(1.1);} }
       .mascot-blush { transition: r 0.18s ease-in-out; }
       .mascot-merged:focus, .mascot-merged:hover { transform: scale(1.03); transition: transform 140ms ease; }
-      
-      .mascot-bubble-in { animation: bubble-pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-      @keyframes bubble-pop-in { 0% { opacity:0; transform: scale(0.8) translateY(10px); } 100% { opacity:1; transform: scale(1) translateY(0); } }
-      .mascot-bubble-out { animation: bubble-pop-out 0.3s ease-in forwards; }
-      @keyframes bubble-pop-out { 0% { opacity:1; transform: scale(1); } 100% { opacity:0; transform: scale(0.9); } }
     `;
     document.head.appendChild(style);
   }, []);
 
-  // Sync incoming expression prop to internal state when not animating/tickled
+  // Sync incoming expression prop to internal state
   useEffect(() => {
     if (isAnimating || isTickled) return;
     if (expression !== currentExpression) {
       setCurrentExpression(expression);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expression]);
 
-  // Respond to outcome or isCelebrating from parent by triggering actions locally
+  // Respond to outcome (Visual Only)
   useEffect(() => {
     if (!outcome && !isCelebrating) return;
     if (isAnimating) return;
     if (outcome === "correct" || isCelebrating) {
-      triggerCorrect();
+      triggerCorrectVisuals();
     } else if (outcome === "wrong") {
-      triggerWrong();
+      triggerWrongVisuals();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outcome, isCelebrating]);
 
-  const triggerCorrect = () => {
+  const triggerCorrectVisuals = () => {
     setIsAnimating(true);
     setCurrentExpression("happy");
     const el = wrapperRef.current;
@@ -246,15 +171,14 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       el.classList.remove("mascot-cry", "mascot-tickle");
       el.classList.add("mascot-celebrate");
     }
-    play("correct");
-    // match the new 600ms celebrate duration
+    // Match the 600ms celebrate duration
     setTimeout(() => {
       if (el) el.classList.remove("mascot-celebrate");
       setIsAnimating(false);
     }, 600);
   };
 
-  const triggerWrong = () => {
+  const triggerWrongVisuals = () => {
     setIsAnimating(true);
     setCurrentExpression("sad");
     setIsCrying(true);
@@ -263,7 +187,6 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       el.classList.remove("mascot-celebrate", "mascot-tickle");
       el.classList.add("mascot-cry");
     }
-    play("wrong");
     setTimeout(() => {
       setIsCrying(false);
       if (el) el.classList.remove("mascot-cry");
@@ -276,12 +199,10 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
     setIsTickled(true);
     setCurrentExpression("tickled");
     
-    // Pick random fact
     const randomFact = SVA_FACTS[Math.floor(Math.random() * SVA_FACTS.length)];
     setTickleMessage(randomFact);
     setShowBubble(true);
     
-    // Clear any existing timeout from the idle prompter
     if (bubbleTimeoutRef.current) {
         clearTimeout(bubbleTimeoutRef.current);
     }
@@ -291,7 +212,12 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       el.classList.remove("mascot-celebrate", "mascot-cry");
       el.classList.add("mascot-tickle");
     }
-    play("tickle");
+    
+    // Play Tickle Sound directly on click
+    if (tickleAudioRef.current) {
+        tickleAudioRef.current.currentTime = 0;
+        tickleAudioRef.current.play().catch(() => {});
+    }
 
     setTimeout(() => {
       setIsTickled(false);
@@ -299,7 +225,6 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       if (el) el.classList.remove("mascot-tickle");
     }, 400);
 
-    // Hide bubble after 7 seconds (longer duration for reading)
     bubbleTimeoutRef.current = window.setTimeout(() => {
         setShowBubble(false);
     }, 7000);

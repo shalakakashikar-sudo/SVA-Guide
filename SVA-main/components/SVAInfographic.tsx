@@ -17,6 +17,18 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
+// --- Utility for Asset Paths ---
+const getAssetPath = (path: string) => {
+  // Check if we are in a Vite environment
+  const meta = import.meta as any;
+  const baseUrl = (meta && meta.env && meta.env.BASE_URL) || "/";
+  // Remove trailing slash if present to avoid double slashes
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  // Ensure path starts with /
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${cleanBase}${cleanPath}`;
+};
+
 // --- Utility for Stratified Sampling (Balanced Randomization) ---
 const getStratifiedQuestions = (allQuestions: QuizQuestion[], count: number): QuizQuestion[] => {
   // Group questions by rule to ensure balanced representation
@@ -111,11 +123,21 @@ const SVAInfographic: React.FC = () => {
   // NEW: outcome state for mascot ("correct" | "wrong" | null)
   const [outcome, setOutcome] = useState<"correct" | "wrong" | null>(null);
 
-  // NEW: audio unlock flag (dispatches one user-interaction event to unlock audio)
-  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  // Audio Refs
+  const audioRef = useRef<{ correct: HTMLAudioElement | null; wrong: HTMLAudioElement | null }>({ correct: null, wrong: null });
 
   // SCROLL MANAGEMENT
   const scrollPos = useRef(0);
+
+  // Initialize Audio
+  useEffect(() => {
+      audioRef.current.correct = new Audio(getAssetPath('sounds/correct.wav'));
+      audioRef.current.wrong = new Audio(getAssetPath('sounds/wrong.wav'));
+      
+      // Preload
+      if (audioRef.current.correct) audioRef.current.correct.load();
+      if (audioRef.current.wrong) audioRef.current.wrong.load();
+  }, []);
 
   // Flatten all rules for navigation
   const allRules = useMemo(() => ruleCategories.flatMap(c => c.rules), []);
@@ -216,12 +238,6 @@ const SVAInfographic: React.FC = () => {
 
   // Step 2: User selects question count -> Start Quiz
   const startQuiz = (count: number) => {
-    // Unlock audio on first gesture
-    if (!audioUnlocked) {
-      setAudioUnlocked(true);
-      window.dispatchEvent(new Event('user-interaction'));
-    }
-
     let selected: QuizQuestion[];
 
     if (selectedRule === null) {
@@ -246,12 +262,6 @@ const SVAInfographic: React.FC = () => {
   };
 
   const handleAnswer = (index: number) => {
-    // Unlock audio on first gesture (answers are user gestures)
-    if (!audioUnlocked) {
-      setAudioUnlocked(true);
-      window.dispatchEvent(new Event('user-interaction'));
-    }
-
     if (answered) return;
     
     setSelectedAnswer(index);
@@ -270,6 +280,12 @@ const SVAInfographic: React.FC = () => {
       setCelebrateMascot(true);
       setOutcome("correct");
 
+      // Play Sound
+      if (audioRef.current.correct) {
+          audioRef.current.correct.currentTime = 0;
+          audioRef.current.correct.play().catch(() => {}); // catch autoplay errors
+      }
+
       // clear celebration + outcome after 1s
       setTimeout(() => {
         setCelebrateMascot(false);
@@ -278,6 +294,13 @@ const SVAInfographic: React.FC = () => {
     } else {
       // wrong answer: set outcome to wrong briefly
       setOutcome("wrong");
+      
+      // Play Sound
+      if (audioRef.current.wrong) {
+          audioRef.current.wrong.currentTime = 0;
+          audioRef.current.wrong.play().catch(() => {});
+      }
+
       setTimeout(() => {
         setOutcome(null);
       }, 1000);
