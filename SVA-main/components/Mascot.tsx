@@ -1,4 +1,5 @@
 
+
 // components/Mascot.tsx
 import React, { useEffect, useRef, useState } from "react";
 
@@ -52,10 +53,18 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
 
   // preload but don't assume unlocked
   useEffect(() => {
-    const base = "/sounds";
-    audio.current.correct = new Audio(`${base}/correct.wav`);
-    audio.current.wrong = new Audio(`${base}/wrong.wav`);
-    audio.current.tickle = new Audio(`${base}/tickle.wav`);
+    // Dynamically determine base path for assets to support GitHub Pages deployment
+    // Use safe access for import.meta.env to prevent "Cannot read properties of undefined"
+    const meta = import.meta as any;
+    const baseUrl = (meta && meta.env && meta.env.BASE_URL) || "/";
+    
+    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const soundBase = `${cleanBase}/sounds`;
+
+    audio.current.correct = new Audio(`${soundBase}/correct.wav`);
+    audio.current.wrong = new Audio(`${soundBase}/wrong.wav`);
+    audio.current.tickle = new Audio(`${soundBase}/tickle.wav`);
+    
     Object.values(audio.current).forEach((a) => {
       if (a) {
         (a as HTMLAudioElement).preload = "auto";
