@@ -58,8 +58,8 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
     audio.current.tickle = new Audio(`${base}/tickle.wav`);
     Object.values(audio.current).forEach((a) => {
       if (a) {
-        a.preload = "auto";
-        a.load();
+        (a as HTMLAudioElement).preload = "auto";
+        (a as HTMLAudioElement).load();
       }
     });
   }, []);
@@ -72,13 +72,14 @@ const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, i
       // attempt quick play/pause on each audio element to satisfy autoplay policy
       Object.values(audio.current).forEach((a) => {
         if (!a) return;
+        const el = a as HTMLAudioElement;
         try {
-          a.currentTime = 0;
-          const p = a.play();
+          el.currentTime = 0;
+          const p = el.play();
           if (p && typeof p.then === "function") {
             p.then(() => {
-              a.pause();
-              a.currentTime = 0;
+              el.pause();
+              el.currentTime = 0;
               // keep loaded for future plays
             }).catch(() => {
               // ignore rejections

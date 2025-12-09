@@ -525,8 +525,8 @@ const SVAInfographic: React.FC = () => {
     const progress = ((currentQuestion + 1) / questions.length) * 100;
 
     return (
-      <div className="min-h-screen p-2 md:p-4 bg-slate-50/50">
-        <div className="max-w-3xl mx-auto">
+      <div className="min-h-screen p-2 md:p-4 bg-slate-50/50 flex flex-col">
+        <div className="max-w-3xl mx-auto w-full flex-1 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={exitQuiz}
@@ -543,68 +543,70 @@ const SVAInfographic: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
-             <div className="w-full bg-slate-200 rounded-full h-2.5 mb-4">
+          <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 flex-1 flex flex-col overflow-hidden">
+             <div className="w-full bg-slate-200 rounded-full h-2.5 mb-4 shrink-0">
                 <div 
                     className="bg-gradient-to-r from-violet-500 to-purple-500 h-2.5 rounded-full transition-all duration-500 ease-out" 
                     style={{ width: `${progress}%` }}
                 ></div>
             </div>
 
-            <div className="mb-4">
-              <div className="inline-block px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-semibold mb-2">
-                {question.difficulty.toUpperCase()}
-              </div>
-              <h2 className="text-xl font-bold text-gray-900 font-poppins">{question.question}</h2>
-            </div>
-
-            <div className="space-y-2 mb-3">
-              {question.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(index)}
-                  disabled={answered}
-                  className={`w-full p-3 text-left rounded-xl shadow-sm transition-all duration-200 ${
-                    answered
-                      ? index === question.correct
-                        ? 'bg-green-100 border-2 border-green-500 text-green-900 font-bold'
-                        : index === selectedAnswer
-                        ? 'bg-red-100 border-2 border-red-500 text-red-900'
-                        : 'bg-gray-100 border border-gray-200 text-gray-500 cursor-not-allowed'
-                      : 'bg-white border border-gray-200 hover:border-violet-400 hover:bg-violet-50 hover:shadow-md text-gray-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">{option}</span>
-                    {answered && index === question.correct && (
-                      <CheckCircleIcon className="text-green-600" size={24} />
-                    )}
-                    {answered && index === selectedAnswer && index !== question.correct && (
-                      <XCircleIcon className="text-red-600" size={24} />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {answered && (
-              <div className={`p-4 rounded-lg mb-4 ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}>
-                <div className="font-bold mb-1 font-poppins">
-                  {isCorrect ? '✅ Correct!' : '❌ Incorrect'}
+            <div className="overflow-y-auto flex-1 pr-2">
+                <div className="mb-4">
+                <div className="inline-block px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-semibold mb-2">
+                    {question.difficulty.toUpperCase()}
                 </div>
-                <p className="text-sm text-gray-700 mb-1">{question.explanation}</p>
-                {question.rule && (
-                  <div className="text-sm text-gray-700">
-                    <strong>Rule Applied:</strong> {question.rule}
-                  </div>
+                <h2 className="text-xl font-bold text-gray-900 font-poppins">{question.question}</h2>
+                </div>
+
+                <div className="space-y-2 mb-3">
+                {question.options.map((option, index) => (
+                    <button
+                    key={index}
+                    onClick={() => handleAnswer(index)}
+                    disabled={answered}
+                    className={`w-full p-3 text-left rounded-xl shadow-sm transition-all duration-200 ${
+                        answered
+                        ? index === question.correct
+                            ? 'bg-green-100 border-2 border-green-500 text-green-900 font-bold'
+                            : index === selectedAnswer
+                            ? 'bg-red-100 border-2 border-red-500 text-red-900'
+                            : 'bg-gray-100 border border-gray-200 text-gray-500 cursor-not-allowed'
+                        : 'bg-white border border-gray-200 hover:border-violet-400 hover:bg-violet-50 hover:shadow-md text-gray-800'
+                    }`}
+                    >
+                    <div className="flex items-center justify-between">
+                        <span className="font-medium">{option}</span>
+                        {answered && index === question.correct && (
+                        <CheckCircleIcon className="text-green-600" size={24} />
+                        )}
+                        {answered && index === selectedAnswer && index !== question.correct && (
+                        <XCircleIcon className="text-red-600" size={24} />
+                        )}
+                    </div>
+                    </button>
+                ))}
+                </div>
+
+                {answered && (
+                <div className={`p-4 rounded-lg mb-4 ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}>
+                    <div className="font-bold mb-1 font-poppins">
+                    {isCorrect ? '✅ Correct!' : '❌ Incorrect'}
+                    </div>
+                    <p className="text-sm text-gray-700 mb-1">{question.explanation}</p>
+                    {question.rule && (
+                    <div className="text-sm text-gray-700">
+                        <strong>Rule Applied:</strong> {question.rule}
+                    </div>
+                    )}
+                </div>
                 )}
-              </div>
-            )}
+            </div>
 
             {answered && (
               <button
                 onClick={handleNext}
-                className="w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg hover:shadow-lg font-bold transition-shadow duration-300"
+                className="w-full py-3 mt-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg hover:shadow-lg font-bold transition-shadow duration-300 shrink-0"
               >
                 {currentQuestion < questions.length - 1 ? 'Next Question →' : 'View Results'}
               </button>

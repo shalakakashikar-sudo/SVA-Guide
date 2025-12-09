@@ -1,8 +1,10 @@
+
 {
   "name": "sva-master-guide",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://shalakakashikar-sudo.github.io/SVA",
   "scripts": {
     "dev": "vite --port 9002 --host 0.0.0.0",
     "build": "vite build",
