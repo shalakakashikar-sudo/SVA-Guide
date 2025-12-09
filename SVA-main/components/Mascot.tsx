@@ -32,7 +32,18 @@ const SVA_FACTS = [
   "Fractions like 'half of' depend on the object.",
   "'Pants' and 'Scissors' are always plural nouns.",
   "In 'Neither/Nor', the verb agrees with the closer subject.",
-  "'Mathematics' is singular, despite the 's'!"
+  "'Mathematics' is singular, despite the 's'!",
+  // Even More Facts
+  "The word 'Police' is always plural: 'The police are here!'",
+  "Start a sentence with 'Each'? The verb must be singular!",
+  "'Bread and butter' is one meal, so it's singular.",
+  "'The United States' is treated as a singular country.",
+  "Generic 'He' or 'She' always takes an 's' on the verb.",
+  "Relative pronouns (who/that) match the noun before them.",
+  "Abstract nouns like 'Honesty' are always singular.",
+  "Don't be confused by 'one of the...'! The subject is 'One'.",
+  "Plural subjects (We/They) hate 's' on their verbs!",
+  "The phrase 'Many a...' is actually singular!"
 ];
 
 const Mascot: React.FC<MascotProps> = ({ expression = "happy", outcome = null, isCelebrating = false }) => {
